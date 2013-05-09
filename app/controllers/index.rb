@@ -22,7 +22,19 @@ get '/auth' do
   session.delete(:request_token)
   @user = User.create(:username => @access_token.params[:screen_name], :oauth_secret => @access_token.secret, :oauth_token => @access_token.token)
   # at this point in the code is where you'll need to create your user account and store the access token
-
+  # @tweet = Tweet.create(params[:tweet])
   erb :index
   
+end
+
+post '/tweet' do
+  
+  @user = User.find(params[:user_id])
+  @user.tweet(params[:status])
+end
+
+get '/status/:job_id' do
+  content_type :json
+  job_is_complete(params[:job_id]).to_json
+  # return the status of a job to an AJAX call
 end

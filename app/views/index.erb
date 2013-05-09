@@ -9,10 +9,12 @@
   %>
   <% if @access_token %>
     <div>
-      <p>
-        <strong>token:</strong> <%= @access_token.token %><br>
-        <strong>secret:</strong> <%= @access_token.secret %><br>
-      </p>
+      <form class="send-tweet" method="post" action="/tweet">
+        <input type= "hidden" value="<%=@user.id %>" name="user_id">
+        <input type="text" placeholder="message" name="status"></input>
+        <input type="submit" value="Tweet"></input>
+      
+      </form>
       <p>
         <button><a href="/sign_out">Sign Out</a></button>
       </p>

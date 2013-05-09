@@ -1,7 +1,22 @@
 $(document).ready(function() {
-  // This is called after the document has loaded in its entirety
-  // This guarantees that any elements we bind to will exist on the page
-  // when we try to bind to them
-
-  // See: http://docs.jquery.com/Tutorials:Introducing_$(document).ready()
+ $('.send-tweet').on('submit', function(e){
+  e.preventDefault();
+  var data = $(this).serialize();
+  $.post('/tweet', data)
+    .done(function(job_id){
+      poll(job_id);
+    });
+  });
 });
+
+
+function poll(job_id) {
+  $.get('/status/'+job_id)
+    .done(function(response){
+      if (response === true) {
+        console.log(response);
+      } else {
+       setTimeout(poll(job_id), 5000);
+      }
+    });
+ }
